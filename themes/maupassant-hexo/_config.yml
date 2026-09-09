@@ -119,8 +119,8 @@ widgets: ## Seven widgets in sidebar provided: search, info, category, tag, rece
   - recent_posts
 
 info:
-  avatar: /img/avatar.png
-  discription: 记录学习、折腾和生活。
+  avatar: /images/avatar.png
+  discription: 2035是一个锚点
   outlinkitem: []
 
 links: []
