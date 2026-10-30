@@ -434,6 +434,8 @@ div {
 
         img {
             max-width: 100%;
+            height: auto;
+            box-sizing: border-box;
             padding: 0.5em 0;
             margin: auto;
             display: block;
@@ -1127,11 +1129,14 @@ figure.highlight,
     line-height: 1.1em;
     color: #333;
     padding-top: 15px;
-    overflow: hidden;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     table {
-        display: block;
-        width: 100%;
+        display: table;
+        min-width: 100%;
+        width: max-content;
     }
 
     // Reset for tag `pre` and  for class `.gutter`, `.code`, `.tag`
@@ -1189,9 +1194,8 @@ figure.highlight,
         width: 100%;
 
         pre {
-            max-width: 700px;
-            overflow-x: auto;
-            overflow-y: hidden;
+            max-width: none;
+            overflow: visible;
         }
     }
 

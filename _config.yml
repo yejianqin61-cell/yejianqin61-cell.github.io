@@ -41,6 +41,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
+# Keep article images in source/images so their URLs remain stable after deployment.
 post_asset_folder: false
 relative_link: false
 future: true
