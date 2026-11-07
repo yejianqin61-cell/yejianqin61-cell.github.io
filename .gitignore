@@ -4,6 +4,10 @@ db.json
 *.log
 node_modules/
 public/
+dist/
+.astro/
+.playwright-cli/
+output/
 .deploy*/
 _multiconfig.yml
 source/about/themes/
