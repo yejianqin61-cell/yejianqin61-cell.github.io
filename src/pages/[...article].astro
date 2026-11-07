@@ -38,9 +38,9 @@ const next = articles[currentIndex - 1];
         <h1>{article.data.title}</h1>
         {article.data.categories.length > 0 && (
           <p class="article-context">
-            {article.data.categories.map((category) => (
-              <a href={`/categories/#category-${category}`}>{category}</a>
-            ))}
+            <a href={`/categories/#category-${article.data.categories.join(' / ')}`}>
+              {article.data.categories.join(' / ')}
+            </a>
           </p>
         )}
         {article.data.tags.length > 0 && (
