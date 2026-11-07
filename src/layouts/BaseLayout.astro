@@ -1,0 +1,35 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  description?: string;
+  title?: string;
+}
+
+const { description = '个人文章集', title } = Astro.props;
+const pageTitle = title ? `${title} · 战斗堡垒的书报亭` : '战斗堡垒的书报亭';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="site-name" href="/">战斗堡垒的书报亭</a>
+        <nav aria-label="主要导航">
+          <a href="/articles/">文章</a>
+          <a href="/about/">关于</a>
+        </nav>
+      </header>
+      <main><slot /></main>
+      <footer class="site-footer">© {new Date().getFullYear()} Ye Jianqin</footer>
+    </div>
+  </body>
+</html>

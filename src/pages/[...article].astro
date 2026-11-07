@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articlePath, byNewest, formatDate } from '../lib/articles';
+
+export async function getStaticPaths() {
+  const articles = byNewest(await getCollection('posts'));
+
+  return articles.map((article) => ({
+    params: { article: articlePath(article).slice(1, -1) },
+    props: { article, articles },
+  }));
+}
+
+const { article, articles } = Astro.props;
+const { Content, headings } = await render(article);
+const currentIndex = articles.findIndex((item) => item.id === article.id);
+const previous = articles[currentIndex + 1];
+const next = articles[currentIndex - 1];
+---
+
+<BaseLayout title={article.data.title}>
+  <article class="article">
+    <header class="article-heading">
+      <p class="eyebrow">{formatDate(article.data.date)}</p>
+      <h1>{article.data.title}</h1>
+      {article.data.categories.length > 0 && (
+        <p class="article-context">{article.data.categories.join(' / ')}</p>
+      )}
+    </header>
+
+    {headings.length > 2 && (
+      <details class="article-outline">
+        <summary>本文目录</summary>
+        <ol>
+          {headings.filter((heading) => heading.depth <= 2).map((heading) => (
+            <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+          ))}
+        </ol>
+      </details>
+    )}
+
+    <div class="prose"><Content /></div>
+
+    <nav class="article-neighbours" aria-label="相邻文章">
+      {previous ? <a href={articlePath(previous)}>← {previous.data.title}</a> : <span />}
+      {next ? <a href={articlePath(next)}>{next.data.title} →</a> : <span />}
+    </nav>
+  </article>
+</BaseLayout>

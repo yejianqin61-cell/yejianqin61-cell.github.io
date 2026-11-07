@@ -1,0 +1,111 @@
+:root {
+  color-scheme: light dark;
+  --ink: #20201e;
+  --muted: #696862;
+  --paper: #f8f7f2;
+  --rule: #d9d6cc;
+  --accent: #9f3b2f;
+  --reading-width: 43rem;
+  font-family: "Iowan Old Style", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e9e5db;
+    --muted: #afaba1;
+    --paper: #1b1c1a;
+    --rule: #3b3a35;
+    --accent: #e49c8e;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--paper); }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  margin: 0;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: 0.18em; }
+a:hover { color: var(--accent); }
+
+.site-shell { margin: 0 auto; max-width: 74rem; min-height: 100vh; padding: 0 2rem; }
+
+.site-header {
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  justify-content: space-between;
+  padding: 1.4rem 0 1.1rem;
+}
+
+.site-name { font-size: 0.92rem; font-weight: 650; text-decoration: none; }
+.site-header nav { display: flex; font-size: 0.88rem; gap: 1.25rem; }
+.site-header nav a { text-decoration: none; }
+.site-footer { border-top: 1px solid var(--rule); color: var(--muted); font: 0.78rem/1.5 ui-sans-serif, system-ui, sans-serif; margin-top: 7rem; padding: 1.4rem 0 2rem; }
+
+.home-intro, .article-list, .archive, .article { margin-left: auto; margin-right: auto; max-width: var(--reading-width); }
+.home-intro { padding: clamp(5.5rem, 15vw, 10rem) 0 5.5rem; }
+.home-intro h1, .article-heading h1, .page-heading h1 { font-size: clamp(2.3rem, 6vw, 4.4rem); font-weight: 560; letter-spacing: -0.045em; line-height: 1.13; margin: 0; }
+.home-intro > p:last-child, .page-heading > p:last-child { color: var(--muted); font-size: 1.1rem; line-height: 1.9; margin: 1.5rem 0 0; }
+.eyebrow { color: var(--accent); font: 0.78rem/1.4 ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.1em; margin: 0 0 1.1rem; text-transform: uppercase; }
+
+.section-heading { align-items: baseline; display: flex; font-family: ui-sans-serif, system-ui, sans-serif; justify-content: space-between; }
+.section-heading h2 { font-size: 0.85rem; letter-spacing: 0.08em; margin: 0; text-transform: uppercase; }
+.section-heading a { color: var(--muted); font-size: 0.8rem; }
+.article-list ol, .archive-year ol { list-style: none; margin: 1.25rem 0 0; padding: 0; }
+.article-list li { align-items: baseline; border-top: 1px solid var(--rule); display: flex; gap: 1.25rem; justify-content: space-between; padding: 1.1rem 0; }
+.article-list li:last-child { border-bottom: 1px solid var(--rule); }
+.article-list li a { font-size: clamp(1.13rem, 2vw, 1.38rem); line-height: 1.55; text-decoration: none; }
+.article-list time, .archive-year time { color: var(--muted); flex: 0 0 auto; font: 0.75rem/1.5 ui-sans-serif, system-ui, sans-serif; }
+
+.article { padding-top: clamp(4rem, 10vw, 7rem); }
+.article-heading { margin-bottom: 3.5rem; }
+.article-heading h1 { font-size: clamp(2.25rem, 5.4vw, 4rem); }
+.article-context { color: var(--muted); font: 0.86rem/1.5 ui-sans-serif, system-ui, sans-serif; margin: 1.25rem 0 0; }
+.article-outline { border-bottom: 1px solid var(--rule); border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.9rem; margin: 0 0 3rem; padding: 0.8rem 0; }
+.article-outline summary { cursor: pointer; font-family: ui-sans-serif, system-ui, sans-serif; }
+.article-outline ol { margin: 0.9rem 0 0 1.1rem; padding: 0; }
+.article-outline li { margin: 0.35rem 0; }
+
+.prose { font-size: clamp(1.08rem, 1.6vw, 1.2rem); line-height: 2; overflow-wrap: break-word; }
+.prose > :first-child { margin-top: 0; }
+.prose h1, .prose h2, .prose h3, .prose h4 { font-weight: 600; letter-spacing: -0.025em; line-height: 1.35; margin: 3.3em 0 1em; scroll-margin-top: 2rem; }
+.prose h1 { font-size: 1.9em; }
+.prose h2 { font-size: 1.45em; }
+.prose h3 { font-size: 1.18em; }
+.prose p, .prose ul, .prose ol, .prose blockquote, .prose figure, .prose table { margin: 0 0 1.55em; }
+.prose ul, .prose ol { padding-left: 1.45em; }
+.prose li + li { margin-top: 0.5em; }
+.prose blockquote { border-left: 2px solid var(--accent); color: var(--muted); margin-left: 0; padding-left: 1.15em; }
+.prose pre { background: color-mix(in srgb, var(--ink) 7%, transparent); border-radius: 0.3rem; font: 0.84em/1.7 ui-monospace, "Cascadia Code", monospace; margin: 1.8em -1rem; overflow-x: auto; padding: 1.1rem; }
+.prose code { font: 0.84em ui-monospace, "Cascadia Code", monospace; }
+.prose :not(pre) > code { background: color-mix(in srgb, var(--ink) 8%, transparent); border-radius: 0.2rem; padding: 0.12em 0.3em; }
+.prose img { display: block; height: auto; margin: 2.2em auto; max-width: 100%; }
+.prose table { border-collapse: collapse; display: block; font-size: 0.88em; overflow-x: auto; width: 100%; }
+.prose th, .prose td { border-bottom: 1px solid var(--rule); padding: 0.55em 0.7em; text-align: left; vertical-align: top; }
+.prose th { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.85em; }
+
+.article-neighbours { border-top: 1px solid var(--rule); display: grid; font-size: 0.92rem; gap: 1.5rem; grid-template-columns: 1fr 1fr; margin-top: 5rem; padding-top: 1.5rem; }
+.article-neighbours a:last-child { text-align: right; }
+.page-heading { padding: clamp(4rem, 10vw, 7rem) 0 4rem; }
+.page-heading h1 { font-size: clamp(2.2rem, 5vw, 3.7rem); }
+.archive-year { border-top: 1px solid var(--rule); padding: 2rem 0; }
+.archive-year h2 { color: var(--accent); font: 0.88rem/1.4 ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.08em; margin: 0; }
+.archive-year li { align-items: baseline; display: flex; gap: 1.3rem; padding: 0.7rem 0; }
+.archive-year li a { line-height: 1.55; }
+
+@media (max-width: 40rem) {
+  .site-shell { padding: 0 1.2rem; }
+  .site-header { padding-top: 1.1rem; }
+  .article-list li { align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+  .article-list time { order: -1; }
+  .article-neighbours { grid-template-columns: 1fr; }
+  .article-neighbours a:last-child { text-align: left; }
+  .prose pre { margin-left: -0.5rem; margin-right: -0.5rem; }
+}
