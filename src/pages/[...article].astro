@@ -20,31 +20,42 @@ const next = articles[currentIndex - 1];
 ---
 
 <BaseLayout title={article.data.title}>
-  <article class="article">
-    <header class="article-heading">
-      <p class="eyebrow">{formatDate(article.data.date)}</p>
-      <h1>{article.data.title}</h1>
-      {article.data.categories.length > 0 && (
-        <p class="article-context">{article.data.categories.join(' / ')}</p>
-      )}
-    </header>
-
+  <article class:list={['article', { 'article-with-outline': headings.length > 2 }]}>
     {headings.length > 2 && (
-      <details class="article-outline">
-        <summary>本文目录</summary>
+      <aside class="article-outline" aria-label="本文目录">
+        <p>目录</p>
         <ol>
-          {headings.filter((heading) => heading.depth <= 2).map((heading) => (
+          {headings.filter((heading) => heading.depth === 2).map((heading) => (
             <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
           ))}
         </ol>
-      </details>
+      </aside>
     )}
 
-    <div class="prose"><Content /></div>
+    <div class="article-body">
+      <header class="article-heading">
+        <p class="eyebrow">{formatDate(article.data.date)}</p>
+        <h1>{article.data.title}</h1>
+        {article.data.categories.length > 0 && (
+          <p class="article-context">
+            {article.data.categories.map((category) => (
+              <a href={`/categories/#category-${category}`}>{category}</a>
+            ))}
+          </p>
+        )}
+        {article.data.tags.length > 0 && (
+          <ul class="article-tags" aria-label="标签">
+            {article.data.tags.map((tag) => <li><a href={`/tags/#tag-${tag}`}>{tag}</a></li>)}
+          </ul>
+        )}
+      </header>
 
-    <nav class="article-neighbours" aria-label="相邻文章">
-      {previous ? <a href={articlePath(previous)}>← {previous.data.title}</a> : <span />}
-      {next ? <a href={articlePath(next)}>{next.data.title} →</a> : <span />}
-    </nav>
+      <div class="prose"><Content /></div>
+
+      <nav class="article-neighbours" aria-label="相邻文章">
+        {previous ? <a href={articlePath(previous)}>← {previous.data.title}</a> : <span />}
+        {next ? <a href={articlePath(next)}>{next.data.title} →</a> : <span />}
+      </nav>
+    </div>
   </article>
 </BaseLayout>

@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articlePath, byNewest, formatDate } from '../../lib/articles';
+
+const articles = byNewest(await getCollection('posts'));
+const tags = Object.entries(
+  Object.groupBy(articles.flatMap((article) => article.data.tags.map((tag) => ({ article, tag }))), (entry) => entry.tag),
+).sort(([first], [second]) => first.localeCompare(second, 'zh-CN'));
+---
+
+<BaseLayout title="标签" description="按标签浏览文章">
+  <section class="taxonomy">
+    <header class="page-heading">
+      <p class="eyebrow">文章标签</p>
+      <h1>沿着线索读</h1>
+      <p>标签连接反复出现的主题与概念。</p>
+    </header>
+
+    {tags.map(([tag, entries]) => (
+      <section class="taxonomy-group" id={`tag-${tag}`}>
+        <h2>#{tag}</h2>
+        <ol>
+          {entries?.map(({ article }) => (
+            <li>
+              <a href={articlePath(article)}>{article.data.title}</a>
+              <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date)}</time>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </section>
+</BaseLayout>

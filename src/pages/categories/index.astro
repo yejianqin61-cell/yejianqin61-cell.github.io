@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articlePath, byNewest, formatDate } from '../../lib/articles';
+
+const articles = byNewest(await getCollection('posts'));
+const categories = Object.entries(
+  Object.groupBy(articles, (article) => article.data.categories.join(' / ') || '未分类'),
+).sort(([first], [second]) => first.localeCompare(second, 'zh-CN'));
+---
+
+<BaseLayout title="分类" description="按分类浏览文章">
+  <section class="taxonomy">
+    <header class="page-heading">
+      <p class="eyebrow">文章分类</p>
+      <h1>按主题读</h1>
+      <p>每篇文章按它所属的主题收录。</p>
+    </header>
+
+    {categories.map(([category, entries]) => (
+      <section class="taxonomy-group" id={`category-${category}`}>
+        <h2>{category}</h2>
+        <ol>
+          {entries?.map((article) => (
+            <li>
+              <a href={articlePath(article)}>{article.data.title}</a>
+              <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date)}</time>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </section>
+</BaseLayout>
