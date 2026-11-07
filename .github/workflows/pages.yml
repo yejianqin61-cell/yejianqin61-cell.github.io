@@ -1,4 +1,4 @@
-name: Deploy Hexo to GitHub Pages
+name: Deploy articles to GitHub Pages
 
 on:
   push:
@@ -28,10 +28,10 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec hexo generate
+      - run: pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./dist
 
   deploy:
     needs: build
