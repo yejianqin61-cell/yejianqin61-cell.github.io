@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articlePath, byNewest, formatDate } from '../../lib/articles';
+
+const articles = byNewest(await getCollection('posts'));
+const years = Object.entries(
+  Object.groupBy(articles, (article) => String(article.data.date.getUTCFullYear())),
+).sort(([first], [second]) => Number(second) - Number(first));
+---
+
+<BaseLayout title="文章" description="全部个人文章">
+  <section class="archive">
+    <header class="page-heading">
+      <p class="eyebrow">文章索引</p>
+      <h1>所有文章</h1>
+      <p>{articles.length} 篇。按写作日期排列。</p>
+    </header>
+
+    {years.map(([year, entries]) => (
+      <section class="archive-year" aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`}>{year}</h2>
+        <ol>
+          {entries?.map((article) => (
+            <li>
+              <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date)}</time>
+              <a href={articlePath(article)}>{article.data.title}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </section>
+</BaseLayout>

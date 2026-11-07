@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articlePath, byNewest, formatDate } from '../lib/articles';
+
+const articles = byNewest(await getCollection('posts'));
+---
+
+<BaseLayout description="Ye Jianqin 的个人文章集">
+  <section class="home-intro">
+    <p class="eyebrow">个人文章集</p>
+    <h1>先锋模范每天回来睡觉</h1>
+    <p>写下读过的、想过的，与尚未说完的事。</p>
+  </section>
+
+  <section class="article-list" aria-labelledby="recent-articles">
+    <div class="section-heading">
+      <h2 id="recent-articles">文章</h2>
+      <a href="/articles/">全部文章</a>
+    </div>
+    <ol>
+      {articles.map((article) => (
+        <li>
+          <a href={articlePath(article)}>{article.data.title}</a>
+          <time datetime={article.data.date.toISOString()}>{formatDate(article.data.date)}</time>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

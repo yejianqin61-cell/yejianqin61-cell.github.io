@@ -1,0 +1,22 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const about = await getEntry('pages', 'index');
+
+if (!about) {
+  throw new Error('缺少关于页内容。');
+}
+
+const { Content } = await render(about);
+---
+
+<BaseLayout title="关于">
+  <article class="article about-page">
+    <header class="article-heading">
+      <p class="eyebrow">关于</p>
+      <h1>{about.data.title}</h1>
+    </header>
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>
