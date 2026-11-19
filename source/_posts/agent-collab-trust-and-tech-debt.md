@@ -200,7 +200,53 @@ potetto-mode 有一条规定：主 Agent 对子 Agent 的结果负责，需要�
 2. 评审 Agent 只负责需要判断的条目，每条意见附文件和行号，并标注是测得、推断还是猜测。
 3. 同一条问题出现第二次就升级为规则，清单因此会越用越短。
 
-## 7 下一步
+## 7 需要借助的外部工具
+
+整体原则来自 Lauren Tan：本地开发和验证优先用 CLI，MCP 留给需要认证的远程服务。所以下面大部分是普通的命令行工具。
+
+这份清单是我根据已知信息整理的。pstack 和 cursor-team-kit 的安装方式出自它们的 README，其余工具我还没在自己的项目里实际验证过，版本和兼容性以各自文档为准。
+
+### 7.1 插件与 skill（方法论和现成流程）
+
+| 名称 | 用途 | 说明 |
+| --- | --- | --- |
+| pstack（cursor/plugins） | potetto-mode、playbook、原则、验证 skill 生成器 | 可在 Claude Code 中安装；依赖 Cursor 专有功能（Bugbot、automations）的步骤会被跳过 |
+| cursor-team-kit | control-ui、control-cli，用于 UI 和 CLI 的复现与验证 | pstack 建议一起安装 |
+| pstack-claude | 社区移植版，面向 Claude Code、Codex | 可替代 pstack，非官方 |
+
+### 7.2 MCP（只在 CLI 不够用时）
+
+| 名称 | 用途 | 是否必需 |
+| --- | --- | --- |
+| Playwright MCP 或 Chrome DevTools MCP | 让 Agent 交互式地操作浏览器、查看页面 | 可选，写成 Playwright 脚本通常更稳定、可复现 |
+| GitHub MCP | 读写议题和 PR | 可选，`gh` CLI 已经够用 |
+
+### 7.3 Claude Code 自带的能力
+
+- Hooks：用 Stop hook 强制 Agent 结束前跑 `verify`。
+- 子代理和 git worktree：并行与隔离。
+- 无头模式 `claude -p`：配合 GitHub Actions 做自动化。
+- `CLAUDE.md`、规则文件、自定义 skill：存放项目知识和自己的验证 skill。
+
+### 7.4 普通开发工具（验证层和技术债清单靠它们）
+
+| 用途 | 工具（JS/TS 生态举例） |
+| --- | --- |
+| UI 复现脚本 | Playwright |
+| Lint 与类型 | ESLint、TypeScript |
+| 重复代码 | jscpd |
+| import 边界 | dependency-cruiser |
+| 死代码、未用依赖 | knip |
+| 密钥扫描 | gitleaks |
+| GitHub 操作 | `gh` CLI |
+
+### 7.5 引入顺序
+
+1. 第一周只装 pstack 和 cursor-team-kit，加上 Playwright 和项目原有的 lint、测试。
+2. 纠错层级跑起来后，再按需加 knip、dependency-cruiser 等检测工具。
+3. MCP 先不装，等确实遇到 CLI 解决不了的场景再加。
+
+## 8 下一步
 
 我打算先花一周只做一件事：给自己的项目写好 `verify`，再用一个真实缺陷跑通"复现、修复、验证"。这一步通了，再按上面的拓扑加并行，并观察额度消耗和返工次数，决定要不要放大。
 
